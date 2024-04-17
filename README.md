@@ -9,7 +9,7 @@
 
 Segformer3D is a light-weight and efficient hierarchical Transformer designed for 3D volumetric segmentation. It calculates attention across multiscale volumetric features, and avoids complex decoders. Instead it uses a simple yet effective all-MLP decoder to aggregate local and global attention features to produce highly accurate segmentation masks.
 
-The implementation of SegFormer3D architecture is in `architectures/segformer3d.py`. The experimentatl setup and implementaiton details are throuhgly explained in our [paper]().
+The implementation of SegFormer3D architecture is in `architectures/segformer3d.py`. The experimentatl setup and implementaiton details are throuhgly explained in our [paper](https://arxiv.org/abs/2404.10156).
 
 ## :rocket: News
 * **(April 15, 2024):** SegFormer3D code & weights are released for BRaTs.
