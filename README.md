@@ -145,6 +145,7 @@ The [Synapse](https://www.synapse.org/#!Synapse:syn3193805/wiki/217789) dataset 
 </p>
 
 ## Citation
+If you liked our paper, please consider citing it
 ```bibtex
 @misc{perera2024segformer3d,
       title={SegFormer3D: an Efficient Transformer for 3D Medical Image Segmentation}, 
