@@ -145,7 +145,7 @@ The [Synapse](https://www.synapse.org/#!Synapse:syn3193805/wiki/217789) dataset 
 </p>
 
 ## Citation
-```
+```shell
 @misc{perera2024segformer3d,
       title={SegFormer3D: an Efficient Transformer for 3D Medical Image Segmentation}, 
       author={Shehan Perera and Pouyan Navard and Alper Yilmaz},
