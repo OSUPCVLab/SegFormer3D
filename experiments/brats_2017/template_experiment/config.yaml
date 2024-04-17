@@ -1,0 +1,114 @@
+# wandb parameters
+project: segfmr3d
+wandb_parameters:
+  mode: "offline" # set this to "online" if you want to log to wandb
+  entity: pcvlab
+  group: brats2017
+  name: segformer3d_adamw_batch2_diceloss
+  resume: False
+  tags: ["pcvlab", "dice", "b0_model", "adamw"]
+
+# model parameters
+model_name: segformer3d
+model_parameters:
+    in_channels: 4
+    sr_ratios: [4, 2, 1, 1]
+    embed_dims: [32, 64, 160, 256]
+    patch_kernel_size: [7, 3, 3, 3]
+    patch_stride: [4, 2, 2, 2]
+    patch_padding: [3, 1, 1, 1]
+    mlp_ratios: [4, 4, 4, 4]
+    num_heads: [1, 2, 5, 8]
+    depths: [2, 2, 2, 2]
+    num_classes: 3
+    decoder_dropout: 0.0
+    decoder_head_embedding_dim: 256
+
+# loss function
+loss_fn:
+  loss_type: "dice"
+  loss_args: None
+
+# optimizer
+optimizer:
+  optimizer_type: "adamw"
+  optimizer_args:
+    lr: 0.0001
+    weight_decay: 0.01
+
+# schedulers
+warmup_scheduler:
+  enabled: True # should be always true
+  warmup_epochs: 20
+
+train_scheduler:
+  scheduler_type: 'cosine_annealing_wr'
+  scheduler_args:
+    t_0_epochs: 400
+    t_mult: 1
+    min_lr: 0.000006
+
+# (Not fully implemented yet) eponential moving average
+ema:
+  enabled: False
+  ema_decay: 0.999
+  val_ema_every: 1
+
+sliding_window_inference:
+  sw_batch_size: 4
+  roi: [128, 128, 128]
+
+# gradient clipping (not implemented yet)
+clip_gradients:
+  enabled: False
+  clip_gradients_value: 0.1
+
+# training hyperparameters
+training_parameters:
+  seed: 42
+  num_epochs: 800
+  cutoff_epoch: 400
+  load_optimizer: False
+  print_every: 200
+  calculate_metrics: True
+  grad_accumulate_steps: 1 # default: 1
+  checkpoint_save_dir: "model_checkpoints/best_dice_checkpoint"
+  load_checkpoint: # not implemented yet
+    load_full_checkpoint: False
+    load_model_only: False
+    load_checkpoint_path: None
+
+# dataset args
+dataset_parameters:
+  dataset_type: "brats2017_seg"
+  train_dataset_args:
+    root: "../../../data/brats2017_seg"
+    train: True
+    # in case you have k-fold train and validation csv 
+    fold_id: null
+    # for example fold_id: 1 will load train_fold_1.csv
+    # default fold_id is null which load train.csv
+    # browse to ../../../data/brats2017_seg/brats2017_raw_data/datameta_generator to access to the csv files 
+    # and put it under ../../../data/brats2017_seg and change the fold_id accrodingly
+
+  val_dataset_args:
+    root: "../../../data/brats2017_seg"
+    train: False
+    # in case you have k-fold train and validation csv
+    fold_id: null
+    # for example fold_id: 1 will load validation_fold_1.csv
+    # default fold_id is null which load validation.csv
+    # browse to ../../../data/brats2017_seg/brats2017_raw_data/datameta_generator to access to the csv files 
+    # and put it under ../../../data/brats2017_seg and change the fold_id accrodingly
+
+  train_dataloader_args:
+    batch_size: 2 
+    shuffle: True
+    num_workers: 8
+    drop_last: True
+
+  val_dataloader_args:
+    batch_size: 1
+    shuffle: False
+    num_workers: 6
+    drop_last: False

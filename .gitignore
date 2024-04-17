@@ -1,0 +1,17 @@
+/data/brats2017_seg/BraTS2017_Training_Data/*
+/data/brats2017_seg/brats2017_raw_data/train/*
+
+/data/brats2021_seg/BraTS2021_Training_Data/*
+/data/brats2021_seg/brats2021_raw_data/train
+
+
+/visualization/*
+
+
+**/wandb
+**/__pycache__
+**.pth
+**.pt
+**.model
+**.zip
+**.pkl

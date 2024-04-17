@@ -1,0 +1,105 @@
+# Config File
+# wandb parameters
+project: segfmr3d
+wandb_parameters:
+  entity: pcvlab
+  group: brats2017
+  name: segformer_scratch_2LayNormEncDec_complicatedAug
+  mode: "online"
+  resume: False
+  #tags: ["pcvlab", "dice", "compicated_aug", "b0_model", "layerNorminEncoderandDecoder"]
+
+# model parameters
+model_name: segformer3d
+model_parameters:
+    in_channels: 4
+    sr_ratios: [4, 2, 1, 1]
+    embed_dims: [32, 64, 160, 256]
+    patch_kernel_size: [7, 3, 3, 3]
+    patch_stride: [4, 2, 2, 2]
+    patch_padding: [3, 1, 1, 1]
+    mlp_ratios: [4, 4, 4, 4]
+    num_heads: [1, 2, 5, 8]
+    depths: [2, 2, 2, 2]
+    num_classes: 3
+    decoder_dropout: 0.0
+    decoder_head_embedding_dim: 256
+
+# loss function
+loss_fn:
+  loss_type: "dice"
+  loss_args: None
+
+# optimizer
+optimizer:
+  optimizer_type: "adamw"
+  optimizer_args:
+    lr: 0.0001
+    weight_decay: 0.01
+
+# schedulers
+warmup_scheduler:
+  enabled: True # should be always true
+  warmup_epochs: 20
+
+train_scheduler:
+  scheduler_type: 'cosine_annealing_wr'
+  scheduler_args:
+    t_0_epochs: 400
+    t_mult: 1
+    min_lr: 0.000006
+
+# eponential moving average
+ema:
+  enabled: False
+  ema_decay: 0.999
+  val_ema_every: 1
+
+sliding_window_inference:
+  sw_batch_size: 4
+  roi: [128, 128, 128]
+
+# gradient clipping (not implemented yet)
+clip_gradients:
+  enabled: False
+  clip_gradients_value: 0.1
+
+# training hyperparameters
+training_parameters:
+  seed: 42
+  num_epochs: 800
+  cutoff_epoch: 400
+  load_optimizer: False
+  print_every: 200
+  calculate_metrics: True
+  grad_accumulate_steps: 1 # default: 1
+  checkpoint_save_dir: "model_checkpoints/best_dice_checkpoint"
+  load_checkpoint: # not implemented yet
+    load_full_checkpoint: False
+    load_model_only: False
+    load_checkpoint_path: None
+
+# dataset args
+dataset_parameters:
+  dataset_type: "brats2017_seg"
+  train_dataset_args:
+    root: "../../../data/brats2017_seg"
+    train: True
+    fold_id: null
+
+  val_dataset_args:
+    root: "../../../data/brats2017_seg"
+    train: False
+    fold_id: null
+
+  train_dataloader_args:
+    batch_size: 2 
+    shuffle: True
+    num_workers: 8
+    drop_last: True
+
+  val_dataloader_args:
+    batch_size: 1
+    shuffle: False
+    num_workers: 6
+    drop_last: False
