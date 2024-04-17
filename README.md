@@ -11,6 +11,8 @@ Segformer3D is a light-weight and efficient hierarchical Transformer designed fo
 
 The implementation of SegFormer3D architecture is in `architectures/segformer3d.py`. The experimentatl setup and implementaiton details are throuhgly explained in our [paper](https://arxiv.org/abs/2404.10156).
 
+Step by step guideline for BraTs is provided below. Other datasets are coming soon.
+
 ## :rocket: News
 * **(April 15, 2024):** SegFormer3D code & weights are released for BRaTs.
 
