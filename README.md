@@ -149,6 +149,15 @@ The [Synapse](https://www.synapse.org/#!Synapse:syn3193805/wiki/217789) dataset 
 ## Citation
 If you liked our paper, please consider citing it
 ```bibtex
+@inproceedings{perera2024segformer3d,
+  title={SegFormer3D: an Efficient Transformer for 3D Medical Image Segmentation},
+  author={Perera, Shehan and Navard, Pouyan and Yilmaz, Alper},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={4981--4988},
+  year={2024}
+}
+```
+```bibtex
 @article{perera2024segformer3d,
   title={SegFormer3D: an Efficient Transformer for 3D Medical Image Segmentation},
   author={Perera, Shehan and Navard, Pouyan and Yilmaz, Alper},
