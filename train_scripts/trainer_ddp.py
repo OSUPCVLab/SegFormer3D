@@ -837,7 +837,7 @@ class AutoEncoder_Trainer:
         Runs a full training and validation of the dataset.
         """
         self._run_train_val()
-        self.accelerator.end_traninig()
+        self.accelerator.end_training()
 
     def evaluate(self) -> None:
         pass
