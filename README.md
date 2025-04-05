@@ -13,6 +13,8 @@ The implementation of SegFormer3D architecture is in `architectures/segformer3d.
 
 Step by step guideline for BraTs is provided below. Other datasets are coming soon.
 
+Contributions are highly encouraged 🙂
+
 ## :rocket: News
 * **(April 15, 2024):** SegFormer3D code & weights are released for BRaTs.
 
