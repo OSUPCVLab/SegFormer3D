@@ -45,6 +45,7 @@ python -m pip install -r requirements.txt
 ```
 For convenience, we call SegFormer3D repo's home directory `SEGFORMER3D_HOME`.
 ## Prepare the Dataset
+🚨 Note: The processing code for both ACDC and Synapse are both done using [nnFormer](https://github.com/282857341/nnFormer) repo. We used that repo for the sake of being fair when comparing our results to our baseline architectures such as nnFormer because they use certain tricks when they process the data during testing time. nnFormer repo is a fairly complicated pipeline and providing a straightforward guideline on how to do the testing would have been another repo on top of SegFormer3D and that is why decided we refrained from doing so.
 ### preprocessing
 First we need to make two folders (I call them `train`, `BraTS2017_Training_Data`) using the terminal:
 ```shell
