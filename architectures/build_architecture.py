@@ -3,6 +3,8 @@ To select the architecture based on a config file we need to ensure
 we import each of the architectures into this file. Once we have that
 we can use a keyword from the config file to build the model.
 """
+
+
 ######################################################################
 def build_architecture(config):
     if config["model_name"] == "segformer3d":

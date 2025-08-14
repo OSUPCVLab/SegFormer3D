@@ -57,7 +57,7 @@ def create_train_val_test_csv_from_data_folder(
     train_sample_base_dir = np.array(data_dir)[train_idx]
     train_sample_case_name = np.array(case_name)[train_idx]
 
-    # we do not need test split so we can merge it with validation 
+    # we do not need test split so we can merge it with validation
     val_idx = np.concatenate((val_idx, test_idx), axis=0)
     validation_sample_base_dir = np.array(data_dir)[val_idx]
     validation_sample_case_name = np.array(case_name)[val_idx]
@@ -89,7 +89,6 @@ def create_train_val_test_csv_from_data_folder(
         header=["data_path", "case_name"],
         index=False,
     )
-
 
 
 if __name__ == "__main__":

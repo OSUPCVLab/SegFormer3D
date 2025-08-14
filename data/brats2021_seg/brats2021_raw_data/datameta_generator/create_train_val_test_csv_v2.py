@@ -26,7 +26,7 @@ def save_pandas_df(dataframe: pd.DataFrame, save_path: str, header: list) -> Non
     """
     assert save_path.endswith("csv")
     assert isinstance(dataframe, pd.DataFrame)
-    assert (dataframe.columns.__len__() == header.__len__())
+    assert dataframe.columns.__len__() == header.__len__()
     dataframe.to_csv(path_or_buf=save_path, header=header, index=False)
 
 
@@ -60,7 +60,7 @@ def create_train_val_test_csv_from_data_folder(
     # iterate through the folder to list all the filenames
     case_name = next(os.walk(folder_dir), (None, None, []))[1]
 
-    # appending append_dir to the case name based on the anatamical planes 
+    # appending append_dir to the case name based on the anatamical planes
     planes = ["sagittal", "coronal", "transverse"]
     data_fp = []
     label_fp = []
@@ -71,9 +71,11 @@ def create_train_val_test_csv_from_data_folder(
             # BraTS2021_Training_Data/BraTS2021_00000/BraTS2021_00000_sagittal_modalities.pt
             data_fp.append(os.path.join(append_dir, case, case_data).replace("\\", "/"))
             # BraTS2021_Training_Data/BraTS2021_00000/BraTS2021_00000_sagittal_label.pt
-            label_fp.append(os.path.join(append_dir, case, case_label).replace("\\", "/"))
+            label_fp.append(
+                os.path.join(append_dir, case, case_label).replace("\\", "/")
+            )
 
-    # we have three anatomical plane for each cse 
+    # we have three anatomical plane for each cse
     cropus_sample_count = case_name.__len__() * 3
 
     idx = np.arange(0, cropus_sample_count)
@@ -93,15 +95,20 @@ def create_train_val_test_csv_from_data_folder(
     train_sample_data_fp = np.array(data_fp)[train_idx]
     train_sample_label_fp = np.array(label_fp)[train_idx]
 
-    # we do not need test split so we can merge it with validation 
+    # we do not need test split so we can merge it with validation
     val_idx = np.concatenate((val_idx, test_idx), axis=0)
     validation_sample_data_fp = np.array(data_fp)[val_idx]
     validation_sample_label_fp = np.array(label_fp)[val_idx]
 
-
     # dictionary object to get converte to dataframe
-    train_data = {"data_path": train_sample_data_fp, "label_path": train_sample_label_fp}
-    valid_data = {"data_path": validation_sample_data_fp, "label_path": validation_sample_label_fp}
+    train_data = {
+        "data_path": train_sample_data_fp,
+        "label_path": train_sample_label_fp,
+    }
+    valid_data = {
+        "data_path": validation_sample_data_fp,
+        "label_path": validation_sample_label_fp,
+    }
 
     train_df = create_pandas_df(train_data)
     valid_df = create_pandas_df(valid_data)

@@ -44,7 +44,7 @@ class SlidingWindowInference:
         # compute accuracy per channel
         acc = self.dice_metric.aggregate().cpu().numpy()
         avg_acc = acc.mean()
-        # To access individual metric 
+        # To access individual metric
         # TC acc: acc[0]
         # WT acc: acc[1]
         # ET acc: acc[2]

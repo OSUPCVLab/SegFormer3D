@@ -3,6 +3,7 @@ import random
 import numpy as np
 import pandas as pd
 
+
 def create_pandas_df(data_dict: dict) -> pd.DataFrame:
     """
     create a pandas dataframe out of data dictionary
@@ -25,7 +26,7 @@ def save_pandas_df(dataframe: pd.DataFrame, save_path: str, header: list) -> Non
     """
     assert save_path.endswith("csv")
     assert isinstance(dataframe, pd.DataFrame)
-    assert (dataframe.columns.__len__() == header.__len__())
+    assert dataframe.columns.__len__() == header.__len__()
     dataframe.to_csv(path_or_buf=save_path, header=header, index=False)
 
 
@@ -82,11 +83,10 @@ def create_train_val_test_csv_from_data_folder(
     train_sample_base_dir = np.array(data_dir)[train_idx]
     train_sample_case_name = np.array(case_name)[train_idx]
 
-    # we do not need test split so we can merge it with validation 
+    # we do not need test split so we can merge it with validation
     val_idx = np.concatenate((val_idx, test_idx), axis=0)
     validation_sample_base_dir = np.array(data_dir)[val_idx]
     validation_sample_case_name = np.array(case_name)[val_idx]
-
 
     # dictionary object to get converte to dataframe
     train_data = {"data_path": train_dp, "label_path": train_fold_cn}
@@ -105,21 +105,6 @@ def create_train_val_test_csv_from_data_folder(
         save_path=f"./validation_fold_{i+1}.csv",
         header=header,
     )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     # create a pandas data frame
     train_df = pd.DataFrame(

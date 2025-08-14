@@ -51,7 +51,10 @@ class Brats2017Task1Dataset(Dataset):
         # load the preprocessed tensors
         volume = torch.load(volume_fp)
         label = torch.load(label_fp)
-        data = {"image": torch.from_numpy(volume).float(), "label": torch.from_numpy(label).float()}
+        data = {
+            "image": torch.from_numpy(volume).float(),
+            "label": torch.from_numpy(label).float(),
+        }
 
         if self.transform:
             data = self.transform(data)

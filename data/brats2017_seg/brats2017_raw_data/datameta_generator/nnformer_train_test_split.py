@@ -470,31 +470,30 @@ train_split = [
     "BRATS_397",
 ]
 test_split = [
-        "BRATS_058",
-        "BRATS_059",
-        "BRATS_076",
-        "BRATS_077",
-        "BRATS_099",
-        "BRATS_113",
-        "BRATS_114",
-        "BRATS_124",
-        "BRATS_139",
-        "BRATS_151",
-        "BRATS_152",
-        "BRATS_157",
-        "BRATS_190",
-        "BRATS_240",
-        "BRATS_242",
-        "BRATS_295",
-        "BRATS_305",
-        "BRATS_325",
-        "BRATS_331",
-        "BRATS_362",
-        "BRATS_389",
-        "BRATS_425",
-        "BRATS_432",
-        "BRATS_450"
-
+    "BRATS_058",
+    "BRATS_059",
+    "BRATS_076",
+    "BRATS_077",
+    "BRATS_099",
+    "BRATS_113",
+    "BRATS_114",
+    "BRATS_124",
+    "BRATS_139",
+    "BRATS_151",
+    "BRATS_152",
+    "BRATS_157",
+    "BRATS_190",
+    "BRATS_240",
+    "BRATS_242",
+    "BRATS_295",
+    "BRATS_305",
+    "BRATS_325",
+    "BRATS_331",
+    "BRATS_362",
+    "BRATS_389",
+    "BRATS_425",
+    "BRATS_432",
+    "BRATS_450",
 ]
 
 train = []
@@ -509,14 +508,14 @@ train_df = pd.DataFrame(
     data={"base_dir": train, "case_name": train_split},
     index=None,
     columns=None,
-    )
+)
 
 # create a pandas data frame
 validation_df = pd.DataFrame(
     data={"base_dir": test, "case_name": test_split},
     index=None,
     columns=None,
-    )
+)
 
 
 # write csv files to the drive!

@@ -27,7 +27,7 @@ def save_pandas_df(dataframe: pd.DataFrame, save_path: str, header: list) -> Non
     """
     assert save_path.endswith("csv")
     assert isinstance(dataframe, pd.DataFrame)
-    assert (dataframe.columns.__len__() == header.__len__())
+    assert dataframe.columns.__len__() == header.__len__()
     dataframe.to_csv(path_or_buf=save_path, header=header, index=False)
 
 
