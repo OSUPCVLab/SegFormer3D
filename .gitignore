@@ -1,4 +1,5 @@
-**/.vscode
+.vscode/
+
 **/wandb
 **/__pycache__
 **.pth
