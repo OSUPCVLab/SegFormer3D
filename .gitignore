@@ -1,17 +1,327 @@
-/data/brats2017_seg/BraTS2017_Training_Data/*
-/data/brats2017_seg/brats2017_raw_data/train/*
+# ============================================================================
+# Python
+# ============================================================================
 
-/data/brats2021_seg/BraTS2021_Training_Data/*
-/data/brats2021_seg/brats2021_raw_data/train
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
 
 
-/visualization/*
+# ============================================================================
+# PyTorch & Deep Learning
+# ============================================================================
+
+# Model checkpoints
+*.pth
+*.pt
+*.ckpt
+*.model
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+
+# TensorBoard logs
+runs/
+logs/
+tensorboard/
+
+# Weights & Biases
+**/wandb/
+wandb/
+*.wandb
+
+# MLflow
+mlruns/
+mlflow/
+
+# DVC
+.dvc/
+*.dvc
 
 
-**/wandb
-**/__pycache__
-**.pth
-**.pt
-**.model
-**.zip
-**.pkl
+# ============================================================================
+# Data & Datasets
+# ============================================================================
+
+# BraTS 2017 Dataset
+/data/brats2017_seg/BraTS2017_Training_Data/
+/data/brats2017_seg/brats2017_raw_data/train/
+/data/brats2017_seg/brats2017_raw_data/imagesTr/
+/data/brats2017_seg/brats2017_raw_data/labelsTr/
+/data/brats2017_seg/brats2017_raw_data/imagesTs/
+
+# BraTS 2021 Dataset
+/data/brats2021_seg/BraTS2021_Training_Data/
+/data/brats2021_seg/brats2021_raw_data/train/
+/data/brats2021_seg/brats2021_raw_data/imagesTr/
+/data/brats2021_seg/brats2021_raw_data/labelsTr/
+/data/brats2021_seg/brats2021_raw_data/imagesTs/
+
+# Other datasets
+/data/**/train/
+/data/**/test/
+/data/**/val/
+/data/**/*.nii
+/data/**/*.nii.gz
+
+# Visualization outputs
+/visualization/
+visualization/
+viz_output/
+results/
+outputs/
+
+# Preprocessed data
+*.npy
+*.npz
+
+
+# ============================================================================
+# Experiment & Model Artifacts
+# ============================================================================
+
+# Model checkpoints directories
+**/model_checkpoints/
+**/checkpoints/
+**/saved_models/
+checkpoint/
+best_model/
+last_model/
+
+# Experiment outputs
+experiments/**/wandb/
+experiments/**/logs/
+experiments/**/outputs/
+experiments/**/results/
+experiments/**/model_checkpoints/
+
+# Specific experiment artifacts (keep configs)
+experiments/**/best_*/
+experiments/**/last_*/
+experiments/**/*.pth
+experiments/**/*.pt
+experiments/**/*.ckpt
+
+
+# ============================================================================
+# Compressed Files
+# ============================================================================
+
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+*.bz2
+*.gz
+*.xz
+
+
+# ============================================================================
+# IDE & Editors
+# ============================================================================
+
+# VSCode
+.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+
+
+# ============================================================================
+# Operating System
+# ============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+.Trash-*
+
+
+# ============================================================================
+# Miscellaneous
+# ============================================================================
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.cache
+
+# profiling data
+*.prof
+
+# Local configuration
+local_config.py
+config_local.yaml
+secrets.yaml
+
+# Documentation builds
+_build/
+_static/
+_templates/

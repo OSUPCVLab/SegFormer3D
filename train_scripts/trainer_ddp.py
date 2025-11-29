@@ -122,7 +122,6 @@ class Segmentation_Trainer:
         # self.train_dataloader.sampler.set_epoch(self.current_epoch)
         for index, raw_data in enumerate(self.train_dataloader):
             # add in gradient accumulation
-            # TODO: test gradient accumulation
             with self.accelerator.accumulate(self.model):
                 # get data ex: (data, target)
                 data, labels = (
@@ -131,8 +130,8 @@ class Segmentation_Trainer:
                 )
                 # print("data ", data.shape, "label ", labels.shape)
 
-                # zero out existing gradients
-                self.optimizer.zero_grad()
+                # zero out existing gradients (set_to_none=True for better performance)
+                self.optimizer.zero_grad(set_to_none=True)
 
                 # forward pass
                 predicted = self.model.forward(data)
@@ -143,6 +142,14 @@ class Segmentation_Trainer:
                 # backward pass
                 self.accelerator.backward(loss)
 
+                # gradient clipping if enabled
+                if self.config.get("clip_gradients", {}).get("enabled", False):
+                    if self.accelerator.sync_gradients:
+                        self.accelerator.clip_grad_norm_(
+                            self.model.parameters(),
+                            self.config["clip_gradients"]["clip_gradients_value"]
+                        )
+
                 # update gradients
                 self.optimizer.step()
 
@@ -150,8 +157,8 @@ class Segmentation_Trainer:
                 if self.ema_enabled and (self.accelerator.is_main_process):
                     self.ema_model.update_parameters(self.model)
 
-                # update loss
-                epoch_avg_loss += loss.item()
+                # update loss (detach to free computation graph)
+                epoch_avg_loss += loss.detach().item()
 
                 if self.print_every:
                     if index % self.print_every == 0:
@@ -166,19 +173,19 @@ class Segmentation_Trainer:
         return epoch_avg_loss
 
     def _val_step(self, use_ema: bool = False) -> float:
-        """_summary_
+        """Run validation step.
 
         Args:
             use_ema (bool, optional): if use_ema runs validation with ema_model. Defaults to False.
 
         Returns:
-            float: _description_
+            float: average validation loss
         """
         # Initialize the training loss for the current Epoch
         epoch_avg_loss = 0.0
         total_dice = 0.0
 
-        # set model to train mode
+        # set model to eval mode
         self.model.eval()
         if use_ema:
             self.val_ema_model.eval()
@@ -198,7 +205,7 @@ class Segmentation_Trainer:
                 else:
                     predicted = self.model.forward(data)
 
-                # calculate loss
+                # calculate loss (detach to avoid memory accumulation)
                 loss = self.criterion(predicted, labels)
 
                 # calculate metrics
@@ -208,7 +215,11 @@ class Segmentation_Trainer:
                     total_dice += mean_dice
 
                 # update loss for the current batch
-                epoch_avg_loss += loss.item()
+                epoch_avg_loss += loss.detach().item()
+
+                # Free up memory periodically during validation
+                if index % 10 == 0 and torch.cuda.is_available():
+                    torch.cuda.empty_cache()
 
         if use_ema:
             self.epoch_val_ema_dice = total_dice / float(index + 1)
@@ -244,7 +255,7 @@ class Segmentation_Trainer:
         return avg_dice_score
 
     def _run_train_val(self) -> None:
-        """_summary_"""
+        """Run full training and validation loop with memory optimization."""
         # Tell wandb to watch the model and optimizer values
         if self.accelerator.is_main_process:
             self.wandb_tracker.run.watch(
@@ -279,6 +290,10 @@ class Segmentation_Trainer:
 
             # update schduler
             self.scheduler.step()
+            
+            # Clear CUDA cache periodically to avoid memory fragmentation
+            if torch.cuda.is_available() and (epoch + 1) % 10 == 0:
+                torch.cuda.empty_cache()
 
     def _update_scheduler(self) -> None:
         """_summary_"""
