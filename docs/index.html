@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SegFormer3D: An Efficient Transformer for 3D Medical Image Segmentation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="title">SegFormer3D</h1>
+            <h2 class="subtitle">An Efficient Transformer for 3D Medical Image Segmentation</h2>
+            
+            <div class="authors">
+                <span>Shehan Perera*</span>
+                <span>Pouyan Navard*</span>
+                <span>Alper Yilmaz</span>
+            </div>
+            
+            <div class="affiliation">
+                Photogrammetric Computer Vision Lab, The Ohio State University
+            </div>
+            
+            <div class="conference">
+                CVPR 2024
+            </div>
+            
+            <div class="links">
+                <a href="https://github.com/OSUPCVLab/SegFormer3D" class="button">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                    Code
+                </a>
+                <a href="#" class="button">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                    </svg>
+                    Paper
+                </a>
+            </div>
+        </header>
+
+        <!-- Abstract -->
+        <section class="abstract">
+            <h2>Abstract</h2>
+            <p>
+                The adoption of Vision Transformers (ViTs) represents a significant advancement in 3D Medical Image segmentation. 
+                However, state-of-the-art architectures require extremely large and complex models with substantial computing resources. 
+                We present <strong>SegFormer3D</strong>, a hierarchical Transformer that achieves competitive performance with 
+                <strong>33× fewer parameters</strong> and a <strong>13× reduction in GFLOPS</strong> compared to state-of-the-art. 
+                SegFormer3D calculates attention across multiscale volumetric features and uses an all-MLP decoder to produce 
+                highly accurate segmentation masks. We benchmark on three widely used datasets (Synapse, BRaTS, ACDC), 
+                demonstrating that lightweight models are a valuable research direction for 3D medical imaging.
+            </p>
+        </section>
+
+        <!-- Key Highlights -->
+        <section class="highlights">
+            <div class="highlight-box">
+                <h3>33×</h3>
+                <p>Fewer Parameters</p>
+            </div>
+            <div class="highlight-box">
+                <h3>13×</h3>
+                <p>Lower GFLOPS</p>
+            </div>
+            <div class="highlight-box">
+                <h3>4.5M</h3>
+                <p>Total Parameters</p>
+            </div>
+            <div class="highlight-box">
+                <h3>17</h3>
+                <p>GFLOPS</p>
+            </div>
+        </section>
+
+        <!-- Qualitative Results -->
+        <section class="results">
+            <h2>Qualitative Results</h2>
+            <p class="section-intro">
+                We compare SegFormer3D (highlighted in green) against state-of-the-art baselines on three medical imaging datasets. 
+                Despite being significantly lighter, our model produces highly accurate segmentation masks across all datasets.
+            </p>
+
+            <!-- BRaTS Results -->
+            <div class="dataset-section">
+                <h3>Brain Tumor Segmentation (BRaTS)</h3>
+                <p class="dataset-desc">
+                    Segmentation of tumor regions (Whole Tumor, Enhancing Tumor, Tumor Core) from multi-modal MRI scans.
+                </p>
+                <div class="gif-container">
+                    <img src="assets/TUMOR_comparison.gif" alt="BRaTS Segmentation Results">
+                </div>
+            </div>
+
+            <!-- Synapse Results -->
+            <div class="dataset-section">
+                <h3>Multi-Organ CT Segmentation (Synapse)</h3>
+                <p class="dataset-desc">
+                    Segmentation of 8 abdominal organs including spleen, kidneys, liver, stomach, gallbladder, pancreas, and aorta.
+                </p>
+                <div class="gif-container">
+                    <img src="assets/SYNAPSE_comparison.gif" alt="Synapse Segmentation Results">
+                </div>
+            </div>
+
+            <!-- ACDC Results -->
+            <div class="dataset-section">
+                <h3>Automated Cardiac Diagnosis (ACDC)</h3>
+                <p class="dataset-desc">
+                    Segmentation of cardiac structures: Right Ventricle (RV), Myocardium (Myo), and Left Ventricle (LV).
+                </p>
+                <div class="gif-container">
+                    <img src="assets/ACDC_comparison.gif" alt="ACDC Segmentation Results">
+                </div>
+            </div>
+        </section>
+
+        <!-- Quantitative Results -->
+        <section class="quantitative">
+            <h2>Quantitative Results</h2>
+            
+            <div class="tables-grid">
+                <!-- BRaTS Table -->
+                <div class="table-container">
+                    <h3>BRaTS Performance</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Params (M)</th>
+                                <th>Avg (%)</th>
+                                <th>WT</th>
+                                <th>ET</th>
+                                <th>TC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>nnFormer</td>
+                                <td>150.5</td>
+                                <td>86.4</td>
+                                <td>91.3</td>
+                                <td>81.8</td>
+                                <td>86.0</td>
+                            </tr>
+                            <tr class="ours">
+                                <td><strong>SegFormer3D (Ours)</strong></td>
+                                <td><strong>4.5</strong></td>
+                                <td><strong>82.1</strong></td>
+                                <td><strong>89.9</strong></td>
+                                <td><strong>74.2</strong></td>
+                                <td><strong>82.2</strong></td>
+                            </tr>
+                            <tr>
+                                <td>UNETR</td>
+                                <td>92.49</td>
+                                <td>71.1</td>
+                                <td>78.9</td>
+                                <td>58.5</td>
+                                <td>76.1</td>
+                            </tr>
+                            <tr>
+                                <td>TransUNet</td>
+                                <td>96.07</td>
+                                <td>64.4</td>
+                                <td>70.6</td>
+                                <td>54.2</td>
+                                <td>68.4</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Synapse Table -->
+                <div class="table-container">
+                    <h3>Synapse Multi-Organ Performance</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Params (M)</th>
+                                <th>Avg DSC (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>nnFormer</td>
+                                <td>150.5</td>
+                                <td>86.57</td>
+                            </tr>
+                            <tr class="ours">
+                                <td><strong>SegFormer3D (Ours)</strong></td>
+                                <td><strong>4.5</strong></td>
+                                <td><strong>82.15</strong></td>
+                            </tr>
+                            <tr>
+                                <td>MISSFormer</td>
+                                <td>--</td>
+                                <td>81.96</td>
+                            </tr>
+                            <tr>
+                                <td>UNETR</td>
+                                <td>92.49</td>
+                                <td>79.56</td>
+                            </tr>
+                            <tr>
+                                <td>TransUNet</td>
+                                <td>96.07</td>
+                                <td>77.48</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ACDC Table -->
+                <div class="table-container">
+                    <h3>ACDC Cardiac Segmentation Performance</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Params (M)</th>
+                                <th>Avg (%)</th>
+                                <th>RV</th>
+                                <th>Myo</th>
+                                <th>LV</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>nnFormer</td>
+                                <td>150.5</td>
+                                <td>92.06</td>
+                                <td>90.94</td>
+                                <td>89.58</td>
+                                <td>95.65</td>
+                            </tr>
+                            <tr class="ours">
+                                <td><strong>SegFormer3D (Ours)</strong></td>
+                                <td><strong>4.5</strong></td>
+                                <td><strong>90.96</strong></td>
+                                <td><strong>88.50</strong></td>
+                                <td><strong>88.86</strong></td>
+                                <td><strong>95.53</strong></td>
+                            </tr>
+                            <tr>
+                                <td>LeViT-UNet-384</td>
+                                <td>52.17</td>
+                                <td>90.32</td>
+                                <td>89.55</td>
+                                <td>87.64</td>
+                                <td>93.76</td>
+                            </tr>
+                            <tr>
+                                <td>TransUNet</td>
+                                <td>96.07</td>
+                                <td>89.71</td>
+                                <td>88.86</td>
+                                <td>84.54</td>
+                                <td>95.73</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Method Overview -->
+        <section class="method">
+            <h2>Method Overview</h2>
+            
+            <div class="method-grid">
+                <div class="method-component">
+                    <h3>🏗️ Hierarchical Encoder</h3>
+                    <p>
+                        A 4-stage hierarchical Transformer extracts multiscale volumetric features from 3D medical images. 
+                        Uses overlapped patch merging to preserve spatial continuity and efficient self-attention to reduce 
+                        computational complexity from O(n²) to O(n²/r).
+                    </p>
+                </div>
+                
+                <div class="method-component">
+                    <h3>⚡ Efficient Self-Attention</h3>
+                    <p>
+                        Addresses the sequence length bottleneck in 3D volumes by compressing the key-value pairs with 
+                        reduction ratios of [4×, 2×, 1×, 1×] across the four stages, maintaining performance while 
+                        dramatically reducing computation.
+                    </p>
+                </div>
+                
+                <div class="method-component">
+                    <h3>🎯 All-MLP Decoder</h3>
+                    <p>
+                        Instead of complex convolutional decoders, we use a simple all-MLP decoder that aggregates 
+                        multiscale features through linear projections and upsampling, achieving superior results 
+                        with minimal parameters.
+                    </p>
+                </div>
+                
+                <div class="method-component">
+                    <h3>🔄 Mix-FFN Module</h3>
+                    <p>
+                        Enables automatic learning of positional cues without fixed positional encoding, ensuring 
+                        superior scalability when handling different input resolutions common in medical imaging.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model Comparison -->
+        <section class="comparison">
+            <h2>Model Efficiency Comparison</h2>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Architecture</th>
+                            <th>Parameters (M)</th>
+                            <th>GFLOPs</th>
+                            <th>Reduction vs SOTA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>nnFormer</td>
+                            <td>150.5</td>
+                            <td>213.4</td>
+                            <td>--</td>
+                        </tr>
+                        <tr>
+                            <td>TransUNet</td>
+                            <td>96.07</td>
+                            <td>88.91</td>
+                            <td>--</td>
+                        </tr>
+                        <tr>
+                            <td>UNETR</td>
+                            <td>92.49</td>
+                            <td>75.76</td>
+                            <td>--</td>
+                        </tr>
+                        <tr>
+                            <td>SwinUNETR</td>
+                            <td>62.83</td>
+                            <td>384.2</td>
+                            <td>--</td>
+                        </tr>
+                        <tr class="ours">
+                            <td><strong>SegFormer3D (Ours)</strong></td>
+                            <td><strong>4.51</strong></td>
+                            <td><strong>17.5</strong></td>
+                            <td><strong>33× params, 13× GFLOPs</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Citation -->
+        <section class="citation">
+            <h2>Citation</h2>
+            <pre><code>@inproceedings{perera2024segformer3d,
+  title={SegFormer3D: an Efficient Transformer for 3D Medical Image Segmentation},
+  author={Perera, Shehan and Navard, Pouyan and Yilmaz, Alper},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  year={2024}
+}</code></pre>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2024 Photogrammetric Computer Vision Lab, The Ohio State University</p>
+            <p>* Equal contribution</p>
+        </footer>
+    </div>
+</body>
+</html>
